@@ -37,7 +37,7 @@ public class GameModellingTests
     {
         var guide = new[] {"A Y","B X","C Z"};
 
-        var playerScore = Game.CalculatePlayerScore(guide);
+        var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         Assert.That(playerScore, Is.EqualTo(15));
         
@@ -49,7 +49,7 @@ public class GameModellingTests
     {
         var guide = new[] {"B Z","B X","C Y", "B Y", "C X"};
         
-        var playerScore = Game.CalculatePlayerScore(guide);
+        var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         Assert.That(playerScore, Is.EqualTo(24));
         
@@ -60,7 +60,7 @@ public class GameModellingTests
     {
         var guide = new[] {"B X"};
         
-        var playerScore = Game.CalculatePlayerScore(guide);
+        var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         Assert.That(playerScore, Is.EqualTo(1));
         
@@ -72,7 +72,7 @@ public class GameModellingTests
     {
         var guide = new[] {"A X","B X","A Y"};
         
-        var playerScore = Game.CalculatePlayerScore(guide);
+        var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         Assert.That(playerScore, Is.EqualTo(13));
         
@@ -83,7 +83,7 @@ public class GameModellingTests
     {
         var guide = File.ReadAllLines("input.txt");
 
-        var playerScore = Game.CalculatePlayerScore(guide);
+        var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         TestContext.Out.WriteLine($"Player score is {playerScore}");
         
