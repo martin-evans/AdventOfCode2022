@@ -1,19 +1,17 @@
-using NUnit.Framework.Internal;
-
 namespace MJE.Advent.RockPaperScissors.Tests.Unit;
 
-public class GameModellingTests
+public class GameModellingTestsStepOne
 {
      [Test]
      public void OpponentShapeSelectedTests()
      {
-         var a = (int)ShapeSelected.Paper;
+         var a = (int)ShapeSelected.Rock;
          Assert.That(a, Is.EqualTo(1));
          
-         var b = (int)ShapeSelected.Scissors;
+         var b = (int)ShapeSelected.Paper;
          Assert.That(b, Is.EqualTo(2));
     
-         var c = (int)ShapeSelected.Rock;
+         var c = (int)ShapeSelected.Scissors;
          Assert.That(c, Is.EqualTo(3));
     
      }
@@ -78,6 +76,8 @@ public class GameModellingTests
         
     }
     
+    
+    
     [Test]
     public void TestLiveInput()
     {
@@ -86,9 +86,6 @@ public class GameModellingTests
         var playerScore = Game.CalculatePlayerScoreVersionOne(guide);
         
         TestContext.Out.WriteLine($"Player score is {playerScore}");
-        
-        
-        // 13340 too high
     }
-}
 
+}
