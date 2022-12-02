@@ -2,7 +2,7 @@
 
 public static class CalorieQueryRunner
 {
-    public static (int index, int value) Run(string numericList)
+    public static QueryResult[] Run(string numericList, int elements)
     {
 
         var aggregatedBlocks = numericList
@@ -10,15 +10,9 @@ public static class CalorieQueryRunner
             .Select(block => block.Split("\r\n"))
             .Select(x => x.Select(int.Parse).Sum()).ToArray();
 
-        var aggregatedBlockByIndex = new Dictionary<int, int>();
+        var aggregatedBlockByIndex = aggregatedBlocks.Select((t, i) => new QueryResult(i + 1, t)).ToList();
 
-        for (var i = 0; i < aggregatedBlocks.Length; i++)
-        {
-            aggregatedBlockByIndex.Add(i+1, aggregatedBlocks[i]);
-        }
-
-        var ret = aggregatedBlockByIndex.MaxBy(x => x.Value);
+        return aggregatedBlockByIndex.OrderByDescending(x => x.Value).Take(elements).ToArray();
         
-        return (ret.Key, ret.Value);
     }
 }

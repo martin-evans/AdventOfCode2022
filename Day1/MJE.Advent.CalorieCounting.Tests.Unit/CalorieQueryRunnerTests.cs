@@ -1,10 +1,12 @@
 
 
+using NUnit.Framework.Constraints;
+
 namespace MJE.Advent.CalorieCounting.Tests.Unit;
 
 public class CalorieQueryRunnerTests
 {
-    private static (int, int) RunTest()
+    private static QueryResult RunTest()
     {
         const string calorieList = @"1000
 2000
@@ -21,26 +23,25 @@ public class CalorieQueryRunnerTests
 
 10000";
 
-        return CalorieQueryRunner.Run(calorieList);
+        return CalorieQueryRunner.Run(calorieList, 1).First();
     }
     
     [Test]
     public void ReturnCorrectElfIndex()
     {
         
-        var (elfIndex, _) = RunTest();
+        var  result = RunTest();
         
-        Assert.That(elfIndex, Is.EqualTo(4));
+        Assert.That(result.Id, Is.EqualTo(4));
 
     }
 
     [Test]
     public void ReturnCorrectCalorieCount()
     {
+        var  result = RunTest();
         
-        var (_, totalCalories) = RunTest();
-        
-        Assert.That(totalCalories, Is.EqualTo(24000));
+        Assert.That(result.Value, Is.EqualTo(24000));
         
     }
 }
