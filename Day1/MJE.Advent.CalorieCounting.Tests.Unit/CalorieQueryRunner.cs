@@ -2,23 +2,22 @@
 
 public static class CalorieQueryRunner
 {
-    public static (int elfIndex, int totalCalories) Run(string calorieList)
+    public static (int index, int value) Run(string numericList)
     {
 
-        var blocks = calorieList.Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries);
-        
-        var groupedBlocks = blocks.Select(block => block.Split("\r\n").ToArray()).ToList();
+        var aggregatedBlocks = numericList
+            .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries)
+            .Select(block => block.Split("\r\n"))
+            .Select(x => x.Select(int.Parse).Sum()).ToArray();
 
-        var summedBlocks = groupedBlocks.Select(x => x.Select(int.Parse).Sum()).ToArray();
-        
-        var dict = new Dictionary<int, int>();
+        var aggregatedBlockByIndex = new Dictionary<int, int>();
 
-        for (var i = 0; i < summedBlocks.Length; i++)
+        for (var i = 0; i < aggregatedBlocks.Length; i++)
         {
-            dict.Add(i+1, summedBlocks[i]);
+            aggregatedBlockByIndex.Add(i+1, aggregatedBlocks[i]);
         }
 
-        var ret = dict.MaxBy(x => x.Value);
+        var ret = aggregatedBlockByIndex.MaxBy(x => x.Value);
         
         return (ret.Key, ret.Value);
     }
