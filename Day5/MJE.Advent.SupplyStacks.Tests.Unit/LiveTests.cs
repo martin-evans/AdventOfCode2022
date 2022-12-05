@@ -2,8 +2,10 @@
 
 namespace MJE.Advent.SupplyStacks.Tests.Unit;
 
-public class LiveTests {
-    
+public class LiveTests
+{
+
+    private string[] _rearrangementProcedure = null!;
     private static List<Stack<char>> StackList()
     {
         var ret = new List<Stack<char>>()
@@ -21,15 +23,30 @@ public class LiveTests {
 
         return ret;
     }
+
+    [OneTimeSetUp]
+    public void LoadData()
+    {
+        _rearrangementProcedure = File.ReadAllLines("input.txt");
+    }
     
     [Test]
-    public void RunLiveTestOne()
+    public void RunLiveCrateMover9000Test()
     {
-        var rearrangementProcedure = File.ReadAllLines("input.txt");
         
         var stackList = StackList();
 
-        Crane.Operate(stackList, rearrangementProcedure);
+        new CrateMover9000().Operate(stackList, _rearrangementProcedure);
+
+        TestContext.Out.WriteLine(StackReporter.Report(stackList));
+    }
+    
+    [Test]
+    public void RunLiveCrateMover9001Test()
+    {
+        var stackList = StackList();
+
+        new CrateMover9001().Operate(stackList, _rearrangementProcedure);
 
         TestContext.Out.WriteLine(StackReporter.Report(stackList));
     }
