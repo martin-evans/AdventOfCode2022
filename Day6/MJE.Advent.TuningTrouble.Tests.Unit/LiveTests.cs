@@ -14,9 +14,19 @@ public class LiveTests
     [Test]
     public void LiveTest_One()
     {
-        var result = PacketMarkerDetector.Detect(_transmissionText);
+        var result = PacketMarkerDetector.Detect(DetectionMode.StartOfPacket, _transmissionText);
 
         Console.WriteLine($"marker position at {result}");
+
+    }
+    
+    
+    [Test]
+    public void LiveTest_Two()
+    {
+        var result = PacketMarkerDetector.Detect(DetectionMode.StartOfMessage, _transmissionText);
+
+        Console.WriteLine($"Start of message position at {result}");
 
     }
     
