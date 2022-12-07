@@ -2,49 +2,54 @@
 
 internal class Folder
 {
-    private readonly List<Folder> _subFolders = new List<Folder>();
+    public Folder? ParentFolder { get; }
+    
+    public string Name { get; }
+    
+    private readonly List<Folder> _subFolders = new();
 
-    private Folder(string fullName)
+    public Folder(string name, Folder? parent = null)
     {
-        FullName = fullName;
+        ParentFolder = parent;
+        Name = name;
     }
 
-    public string FullName { get; private  set; }
-
-    public Dictionary<string, int> Files { get; set; } = new Dictionary<string, int>();
+    public Dictionary<string, int> Files { get; set; } = new();
 
     public Folder[] SubFolders => _subFolders.ToArray();
 
-    public static Folder ProcessLsCommand(string commandStream, string fullName)
+    public void ProcessLsCommand(string commandStream)
     {
-        var ret = new Folder(fullName);
-
-        ret.ParseCommandStream(commandStream);
-
-        return ret;
+        if (commandStream.StartsWith("dir"))
+        {
+            var name = commandStream.Split(" ")[1];
+            _subFolders.Add(new Folder(name, this));
+        }
+        else
+        {
+            var fileDetails = commandStream.Split(" ");
+            var fileSize = int.Parse(fileDetails[0]);
+            var fileName = fileDetails[1];
+            Files.Add(fileName, fileSize);
+        }
+    }
+    
+    public override string ToString()
+    {
+        return $"{Name} : {Size} bytes";
     }
 
-    private void ParseCommandStream(string commandStream)
+    public long Size { get; private set; }
+
+    public void CalculateSize()
     {
-        // go from ls, down to next line with a $
+        Size = Files.Values.Sum();
 
-        var outputBlocks = commandStream.Split("$s").First().Split("\r\n").Skip(1);
-
-        foreach (var outputBlock in outputBlocks)
+        _subFolders.ForEach(x =>
         {
-            if (outputBlock.StartsWith("dir"))
-            {
-                var name = outputBlock.Split(" ")[1];
-                var fullName = $"{FullName}{name}";
-                _subFolders.Add(new Folder(fullName));
-            }
-            else
-            {
-                var fileDetails = outputBlock.Split(" ");
-                var fileSize = int.Parse(fileDetails[0]);
-                var fileName = fileDetails[1];
-                Files.Add(fileName, fileSize);
-            }
-        }
+            x.CalculateSize();
+            Size += x.Size;
+        });
+        
     }
 }

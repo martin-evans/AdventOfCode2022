@@ -1,5 +1,3 @@
-using System.Transactions;
-
 namespace MJE.Advent.NoSpaceLeftOnDevice.Tests.Unit;
 
 public class TerminalOutputParserTests
@@ -35,7 +33,7 @@ $ ls
     public void Test1()
     {
         var sut = new TerminalOutPutParser();
-        Dictionary<string, int> res = sut.DeduceFolderSizes(TerminalOutput());
+        Dictionary<string, long> res = sut.DeduceFolderSizes(TerminalOutput());
         Assert.That(res["/"], Is.EqualTo(48381165));
     }
 }
