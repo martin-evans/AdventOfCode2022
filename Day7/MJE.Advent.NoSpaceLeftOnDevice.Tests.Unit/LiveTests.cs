@@ -9,7 +9,7 @@ public class LiveTests
     }
     
     [Test]
-    public void LiveTstOne()
+    public void LiveTestOne()
     {
         var res = new TerminalOutPutParser().DeduceFolderSizes(GetInput());
 
@@ -17,6 +17,20 @@ public class LiveTests
 
         Console.WriteLine($"Result is {result}");
 
+    }
+    
+    [Test]
+    public void LiveTestTwo()
+    {
+        var minDirectorySize = 838_116_5;
+        
+        var res = new TerminalOutPutParser().DeduceFolderSizes(GetInput());
+
+        foreach (var keyValuePair in res.Where(x=>x.Value >= minDirectorySize).OrderByDescending(x=>x.Value))
+        {
+            TestContext.Out.WriteLine(keyValuePair);
+        }
+        
     }
     
 }

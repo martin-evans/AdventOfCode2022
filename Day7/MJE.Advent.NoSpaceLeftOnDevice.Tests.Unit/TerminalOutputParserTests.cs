@@ -56,5 +56,20 @@ $ ls
             Assert.That(folder.Files["b.txt"], Is.EqualTo(14848514));
         });
     }
+
+
+    [Test]
+    public void METHOD()
+    {
+
+        var sut = new TerminalOutPutParser();
+        var res = sut.DeduceFolderSizes(TerminalOutput());
+
+        foreach (var keyValuePair in res.Where(x=>x.Value <=30000000).OrderByDescending(x=>x.Value))
+        {
+            TestContext.Out.WriteLine(keyValuePair);
+        }
+        
+    }
     
 }

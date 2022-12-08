@@ -21,7 +21,9 @@ public class TerminalOutPutParser
     
     private static void Flatten (Folder root , Dictionary<string, long> carry)
     {
-        carry.Add($"{root?.ParentFolder}{root.Name}" , root.Size);
+        var prefix = root.ParentFolder != null ? $"{root.ParentFolder.Name}/" : "";
+        
+        carry.Add($"{prefix}{root.Name}/{Guid.NewGuid().ToString()}" , root.Size);
         root.SubFolders.ToList().ForEach( x=> Flatten(x, carry));
         
     }
