@@ -2,7 +2,7 @@
 
 public class TerminalOutPutParser
 {
-    private Folder? _currentFolder;
+    public Folder? CurrentFolder { get; private set; }
 
     public Dictionary<string, long> DeduceFolderSizes(string terminalOutput)
     {
@@ -12,9 +12,9 @@ public class TerminalOutPutParser
         
         SetTargetFolderToRoot();
         
-        _currentFolder!.CalculateSize();
+        CurrentFolder!.CalculateSize();
         
-        Flatten(_currentFolder, ret);
+        Flatten(CurrentFolder, ret);
 
         return ret;
     }
@@ -54,7 +54,7 @@ public class TerminalOutPutParser
     {
         do
         {
-            _currentFolder!.ProcessLsCommand(opStream.Dequeue());
+            CurrentFolder!.ProcessLsCommand(opStream.Dequeue());
 
             if (!opStream.Any()) break;
         } while (!opStream.Peek().StartsWith("$"));
@@ -64,13 +64,13 @@ public class TerminalOutPutParser
     {
         if (name == "..")
         {
-            _currentFolder = _currentFolder?.ParentFolder;
+            CurrentFolder = CurrentFolder?.ParentFolder;
         }
         else
         {
-            _currentFolder = _currentFolder == null
+            CurrentFolder = CurrentFolder == null
                 ? new Folder(name)
-                : _currentFolder?
+                : CurrentFolder?
                     .SubFolders
                     .SingleOrDefault(x => x.Name == name);
         }
@@ -80,7 +80,7 @@ public class TerminalOutPutParser
     {
         do
         {
-            _currentFolder = _currentFolder?.ParentFolder;
-        } while (_currentFolder?.ParentFolder != null);
+            CurrentFolder = CurrentFolder?.ParentFolder;
+        } while (CurrentFolder?.ParentFolder != null);
     }
 }

@@ -8,12 +8,10 @@ public class LiveTests
         return File.ReadAllText("input.txt");
     }
     
-
     [Test]
     public void LiveTstOne()
     {
-        var sut = new TerminalOutPutParser();
-        var res = sut.DeduceFolderSizes(GetInput());
+        var res = new TerminalOutPutParser().DeduceFolderSizes(GetInput());
 
         var result = res.Values.Where(x=> x <= 100000).Sum();
 

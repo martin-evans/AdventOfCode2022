@@ -1,6 +1,6 @@
 ﻿namespace MJE.Advent.NoSpaceLeftOnDevice.Tests.Unit;
 
-internal class Folder
+public class Folder
 {
     public Folder? ParentFolder { get; }
     
